@@ -112,9 +112,9 @@ export const PatientProfileScreen = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h2 className="text-xl font-bold text-white tracking-tight">
-                  {profile?.user?.name || user?.name || 'Ishani Sharma'}
+                  {profile?.user?.name || user?.name || 'Sweta Sharma'}
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">{profile?.user?.email || user?.email || 'ishani.sharma@example.com'}</p>
+                <p className="text-xs text-slate-400 mt-0.5">{profile?.user?.email || user?.email || 'Sweta.sharma@example.com'}</p>
               </div>
 
               <button
@@ -154,7 +154,7 @@ export const PatientProfileScreen = () => {
               </div>
               <div>
                 <span className="text-slate-400 block text-[11px]">Email Address</span>
-                <span className="text-white font-medium">{profile?.user?.email || user?.email || 'ishani.sharma@example.com'}</span>
+                <span className="text-white font-medium">{profile?.user?.email || user?.email || 'Sweta.sharma@example.com'}</span>
               </div>
             </div>
 

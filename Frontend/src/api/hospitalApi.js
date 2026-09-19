@@ -85,7 +85,7 @@ export const hospitalApi = {
       if (!mockReviews[hospitalId]) mockReviews[hospitalId] = [];
       mockReviews[hospitalId].unshift({
         id: 'rev_' + Date.now(),
-        patientName: 'Ishani Sharma',
+        patientName: 'Sweta Sharma',
         rating,
         feedback,
         createdAt: new Date().toISOString(),

@@ -275,7 +275,7 @@ const AllHospitals = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-black p-6">
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           <div className="animate-pulse">
             <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-lg w-72 mb-3"></div>
             <div className="h-5 bg-gray-200 dark:bg-gray-800 rounded w-96 mb-8"></div>
@@ -310,7 +310,7 @@ const AllHospitals = () => {
   // --------------------------------------------------
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 p-4 sm:p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto">
 
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">

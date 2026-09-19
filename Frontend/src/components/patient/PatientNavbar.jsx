@@ -37,7 +37,7 @@ export const PatientNavbar = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#05070D]/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo & Name */}
         <div className="flex items-center gap-3">
           <Link to="/patient-dashboard" className="flex items-center gap-2.5 group">

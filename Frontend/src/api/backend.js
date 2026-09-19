@@ -174,8 +174,8 @@ export const todaysAppointment = () =>
           status: 'PENDING',
           patient: {
             userId: {
-              name: 'Ishani Sharma',
-              email: 'ishani.sharma@example.com',
+              name: 'Sweta Sharma',
+              email: 'Sweta.sharma@example.com',
             },
           },
         },
@@ -255,7 +255,7 @@ export const getCurrentPatient = () =>
   api.get('/consultation/current-patient').catch(() => ({
     data: {
       patient: {
-        name: 'Ishani Sharma',
+        name: 'Sweta Sharma',
         age: 27,
         gender: 'Female',
         token: 14,
@@ -275,9 +275,9 @@ export const searchPatient = (data) =>
       patients: [
         {
           _id: 'pat_01',
-          name: 'Ishani Sharma',
+          name: 'Sweta Sharma',
           phone: '+91 98765 43210',
-          email: 'ishani@example.com',
+          email: 'Sweta@example.com',
           bloodGroup: 'B+',
           gender: 'FEMALE',
         },
@@ -289,9 +289,9 @@ export const getPatientProfile = (patientId) =>
   api.get(`/patients/get-patient-profile/${patientId}`).catch(() => ({
     data: {
       patient: {
-        name: 'Ishani Sharma',
+        name: 'Sweta Sharma',
         phone: '+91 98765 43210',
-        email: 'ishani@example.com',
+        email: 'Sweta@example.com',
         bloodGroup: 'B+',
         gender: 'FEMALE',
         dob: '1998-05-14',
@@ -388,7 +388,7 @@ export const getRequestedEmergencies = () =>
       emergencies: [
         {
           _id: 'emg_001',
-          patientName: 'Ishani Sharma',
+          patientName: 'Sweta Sharma',
           phone: '+91 98765 43210',
           reason: 'Severe chest discomfort and dizziness',
           location: 'Senapati Bapat Road, Pune',

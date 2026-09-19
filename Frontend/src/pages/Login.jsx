@@ -24,9 +24,9 @@ const roleProfiles = [
     label: 'Patient',
     icon: User,
     color: 'text-blue-400',
-    demoEmail: 'ishani.sharma@example.com',
+    demoEmail: 'Sweta.sharma@example.com',
     demoPass: 'password123',
-    demoName: 'Ishani Sharma',
+    demoName: 'Sweta Sharma',
     redirect: '/patient-dashboard',
   },
   {
@@ -77,7 +77,7 @@ export const Login = () => {
 
   const [selectedRole, setSelectedRole] = useState(ROLE.patient);
   const [formData, setFormData] = useState({
-    email: 'ishani.sharma@example.com',
+    email: 'Sweta.sharma@example.com',
     password: 'password123',
   });
   const [loading, setLoading] = useState(false);

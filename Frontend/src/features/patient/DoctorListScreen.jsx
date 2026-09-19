@@ -31,7 +31,7 @@ export const DoctorListScreen = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-6 animate-fadeIn">
+    <div className="mx-auto  px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-6 animate-fadeIn">
       {/* Top Bar with Back Button */}
       <div className="flex items-center gap-3">
         <button

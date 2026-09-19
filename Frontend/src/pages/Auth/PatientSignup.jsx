@@ -111,7 +111,7 @@ export const PatientSignup = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Ishani Sharma"
+                placeholder="e.g. Sweta Sharma"
                 required
                 className="w-full rounded-xl bg-slate-950/80 border border-white/10 pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-blue-500 transition-colors"
               />

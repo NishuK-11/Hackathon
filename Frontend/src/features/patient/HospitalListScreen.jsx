@@ -50,7 +50,7 @@ export const HospitalListScreen = () => {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-6 animate-fadeIn">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-6 animate-fadeIn">
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Plus_Jakarta_Sans']">

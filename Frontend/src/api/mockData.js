@@ -1,10 +1,10 @@
 export const mockUser = {
   id: 'user_pat_01',
-  name: 'Ishani Sharma',
-  email: 'ishani@example.com',
+  name: 'Sweta Sharma',
+  email: 'Sweta@example.com',
   role: 'PATIENT',
   patientId: 'pat_01',
-  token: 'mock_jwt_token_for_ishani_12345'
+  token: 'mock_jwt_token_for_Sweta_12345'
 };
 
 export const mockPatientProfile = {
@@ -398,7 +398,7 @@ export const mockReviews = {
     },
     {
       id: 'rev_03',
-      patientName: 'Ishani Sharma',
+      patientName: 'Sweta Sharma',
       rating: 5,
       feedback: 'Consultation was on time as per token #18. Modern OPD queue display inside the waiting area is super helpful!',
       createdAt: '2026-01-28T16:40:00.000Z',

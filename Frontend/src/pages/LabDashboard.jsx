@@ -178,7 +178,7 @@ export const LabDashboard = () => {
     <div className="min-h-screen bg-[#070B14] text-white flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Top Header */}
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0A101D]/90 backdrop-blur-md px-6 py-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <div className="mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 shadow-lg shadow-rose-500/25">
               <FlaskConical className="h-6 w-6 text-white" />
@@ -223,7 +223,7 @@ export const LabDashboard = () => {
       </header>
 
       {/* Main Container */}
-      <main className="mx-auto max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="mx-auto  flex-1 px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* KPI Metrics */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="medical-card p-5 border-l-4 border-l-blue-500">

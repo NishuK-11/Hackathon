@@ -65,7 +65,7 @@ export const HomeScreen = () => {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-8 animate-fadeIn">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 space-y-8 animate-fadeIn">
       {/* Welcome Greeting */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-4">
         <div>
@@ -73,7 +73,7 @@ export const HomeScreen = () => {
             {t.welcomeBack}
           </p>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Plus_Jakarta_Sans']">
-            Hello, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">{user?.name || 'Patient'}</span>
+            Sweta <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">{user?.name || 'Patient'}</span>
           </h1>
         </div>
         <div className="flex items-center gap-2">
