@@ -1,0 +1,19 @@
+{
+  "trainingSource": "M5 Forecasting Accuracy retail unit sales",
+  "sourceDescription": "Walmart retail goods; generic demand-pattern pretraining only, not pharmacy data",
+  "trainingSeries": 800,
+  "trainingDaysPerSeries": 337,
+  "validationDays": 28,
+  "validationMAE": 1.0525,
+  "validationRMSE": 2.1379,
+  "featureNames": [
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "rolling_mean_3",
+    "rolling_mean_7",
+    "rolling_mean_14",
+    "day_of_week"
+  ],
+  "seed": 42
+}
