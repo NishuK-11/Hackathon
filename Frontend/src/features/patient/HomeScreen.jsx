@@ -38,14 +38,14 @@ export const HomeScreen = () => {
       subtitle: 'Verified clinics & centers',
       icon: Building2,
       color: 'from-blue-600 to-indigo-600',
-      action: () => navigate('/patient/hospitals'),
+      action: () => navigate('/patient-dashboard/hospitals'),
     },
     {
       title: t.topDoctors,
       subtitle: 'Specialists & surgeons',
       icon: Stethoscope,
       color: 'from-teal-600 to-emerald-600',
-      action: () => navigate('/patient/hospitals'),
+      action: () => navigate('/patient-dashboard/hospitals'),
     },
     {
       title: 'Emergency SOS',
@@ -60,7 +60,7 @@ export const HomeScreen = () => {
       subtitle: 'Medicines & refills',
       icon: Pill,
       color: 'from-amber-600 to-orange-600',
-      action: () => navigate('/patient/pharmacy'),
+      action: () => navigate('/patient-dashboard/pharmacy'),
     },
   ];
 
@@ -111,14 +111,14 @@ export const HomeScreen = () => {
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
-              onClick={() => navigate('/patient/hospitals')}
+              onClick={() => navigate('/patient-dashboard/hospitals')}
               className="flex items-center gap-2 rounded-xl glow-btn-primary px-5 py-2.5 text-xs font-bold tracking-wide shadow-lg shadow-blue-500/25 active:scale-95 cursor-pointer"
             >
               <span>{t.bookAppointment}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
-              onClick={() => navigate('/patient/queue')}
+              onClick={() => navigate('/patient-dashboard/queue')}
               className="flex items-center gap-2 rounded-xl bg-slate-800/80 hover:bg-slate-750 text-slate-200 border border-white/10 px-4 py-2.5 text-xs font-semibold backdrop-blur-md transition-colors cursor-pointer"
             >
               <Users className="w-4 h-4 text-blue-400" />
@@ -158,7 +158,7 @@ export const HomeScreen = () => {
       {/* Active Live Queue Status Banner */}
       {queue?.hasActiveQueue && (
         <div 
-          onClick={() => navigate('/patient/queue')}
+          onClick={() => navigate('/patient-dashboard/queue')}
           className="medical-card medical-card-interactive p-5 border-blue-500/40 bg-gradient-to-r from-blue-950/40 via-slate-900 to-indigo-950/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4">
@@ -224,7 +224,7 @@ export const HomeScreen = () => {
             <p className="text-xs text-slate-400">Healthcare centers around your vicinity</p>
           </div>
           <button
-            onClick={() => navigate('/patient/hospitals')}
+            onClick={() => navigate('/patient-dashboard/hospitals')}
             className="flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
           >
             <span>{t.viewAll}</span>
@@ -248,7 +248,7 @@ export const HomeScreen = () => {
               <HospitalCard
                 key={hospital.id || hospital._id}
                 hospital={hospital}
-                onDirections={(h) => navigate(`/patient/route/${h.id || h._id}`)}
+                onDirections={(h) => navigate(`/patient-dashboard/route/${h.id || h._id}`)}
               />
             ))}
           </div>

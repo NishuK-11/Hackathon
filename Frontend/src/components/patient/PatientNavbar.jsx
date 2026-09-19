@@ -64,11 +64,11 @@ export const PatientNavbar = () => {
             <Home className="w-4 h-4 text-blue-400" />
             <span>{t.home}</span>
           </Link>
-          <Link to="/patient/appointments" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
+          <Link to="/patient-dashboard/appointments" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
             <Calendar className="w-4 h-4 text-blue-400" />
             <span>{t.appointments}</span>
           </Link>
-          <Link to="/patient/queue" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors relative">
+          <Link to="/patient-dashboard/queue" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors relative">
             <Users className="w-4 h-4 text-blue-400" />
             <span>{t.queue}</span>
             {queue?.hasActiveQueue && (
@@ -78,11 +78,11 @@ export const PatientNavbar = () => {
               </span>
             )}
           </Link>
-          <Link to="/patient/reports" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
+          <Link to="/patient-dashboard/reports" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
             <FileText className="w-4 h-4 text-blue-400" />
             <span>{t.reports}</span>
           </Link>
-          <Link to="/patient/pharmacy" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
+          <Link to="/patient-dashboard/pharmacy" className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition-colors">
             <Pill className="w-4 h-4 text-blue-400" />
             <span>{t.pharmacy}</span>
           </Link>
@@ -118,7 +118,7 @@ export const PatientNavbar = () => {
           {isAuthenticated ? (
             <div className="flex items-center gap-2">
               <Link
-                to="/patient/profile"
+                to="/patient-dashboard/profile"
                 className="flex items-center gap-2 rounded-full bg-slate-900/90 border border-white/10 p-1 sm:px-3 sm:py-1 hover:border-blue-500/40 transition-colors"
               >
                 <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center text-white font-bold text-xs shadow-inner">

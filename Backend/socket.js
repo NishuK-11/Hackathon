@@ -156,6 +156,13 @@ module.exports = (io, onlineDoctors, onlinePatients) => {
       console.log("Patient re-announced:", socket.patientId);
     });
 
+    socket.on("join-queue", (doctorId) => {
+      if (doctorId) {
+        socket.join(`doctor_${doctorId}`);
+        console.log(`Patient joined doctor queue room: doctor_${doctorId}`);
+      }
+    });
+
     // Disconnect
     socket.on("disconnect", async () => {
 

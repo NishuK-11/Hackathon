@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { reportApi } from '../../api/reportApi';
+import { appointmentApi } from '../../api/appointmentApi';
 import { DocumentViewerModal } from '../../components/patient/DocumentViewerModal';
 import { Modal } from '../../components/patient/Modal';
 import { showToast } from '../../redux/slices/uiSlice';
@@ -18,6 +19,10 @@ import {
   FlaskConical,
   Award,
   Sparkles,
+  Share2,
+  Stethoscope,
+  X,
+  Check
 } from 'lucide-react';
 
 export const MyReportsScreen = () => {
@@ -30,7 +35,13 @@ export const MyReportsScreen = () => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('all'); // all | lab | patient
+
+  // Share Form States
+  const [selectedDoctorId, setSelectedDoctorId] = useState('');
+  const [selectedReportIds, setSelectedReportIds] = useState([]);
+  const [isSharing, setIsSharing] = useState(false);
 
   // Upload Form States
   const [title, setTitle] = useState('');
@@ -41,6 +52,20 @@ export const MyReportsScreen = () => {
     queryKey: ['medical-reports'],
     queryFn: () => reportApi.fetchMyReports(),
   });
+
+  const { data: appointments = [] } = useQuery({
+    queryKey: ['my-appointments-for-sharing'],
+    queryFn: () => appointmentApi.getMyAppointments(),
+  });
+
+  const doctorsList = appointments
+    .map((a) => {
+      const docId = a.doctorId || (typeof a.doctor === 'object' ? a.doctor?._id : a.doctor);
+      const docName = a.doctorName || a.doctor?.userId?.name || 'Dr. Specialist';
+      const hosp = a.hospitalName || a.hospital?.name || '';
+      return { id: docId, name: docName, hospital: hosp };
+    })
+    .filter((doc, idx, arr) => doc.id && arr.findIndex((d) => d.id === doc.id) === idx);
 
   const uploadMutation = useMutation({
     mutationFn: async (formData) => {
@@ -57,6 +82,37 @@ export const MyReportsScreen = () => {
       dispatch(showToast({ message: 'Failed to upload document', type: 'error' }));
     },
   });
+
+  const handleShareSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedDoctorId) {
+      dispatch(showToast({ message: 'Please select a doctor to share reports with.', type: 'error' }));
+      return;
+    }
+    if (selectedReportIds.length === 0) {
+      dispatch(showToast({ message: 'Please select at least one report to share.', type: 'error' }));
+      return;
+    }
+
+    try {
+      setIsSharing(true);
+      await reportApi.shareReports(selectedDoctorId, selectedReportIds);
+      dispatch(showToast({ message: 'Reports successfully shared with the doctor!', type: 'success' }));
+      queryClient.invalidateQueries({ queryKey: ['medical-reports'] });
+      setIsShareModalOpen(false);
+      setSelectedReportIds([]);
+    } catch (err) {
+      dispatch(showToast({ message: 'Failed to share reports.', type: 'error' }));
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
+  const toggleReportSelection = (id) => {
+    setSelectedReportIds((prev) =>
+      prev.includes(id) ? prev.filter((rId) => rId !== id) : [...prev, id]
+    );
+  };
 
   const handleUploadSubmit = (e) => {
     e.preventDefault();
@@ -123,13 +179,23 @@ export const MyReportsScreen = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => setIsUploadOpen(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl glow-btn-primary text-xs font-bold self-start sm:self-center shadow-lg shadow-blue-500/20 active:scale-95"
-        >
-          <UploadCloud className="w-4 h-4" />
-          <span>{t.uploadReport || 'Upload Document'}</span>
-        </button>
+        <div className="flex items-center gap-2.5 self-start sm:self-center flex-wrap">
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-teal-300 border border-teal-500/30 text-xs font-bold transition-all active:scale-95 cursor-pointer"
+          >
+            <Share2 className="w-4 h-4 text-teal-400" />
+            <span>Share with Doctor</span>
+          </button>
+
+          <button
+            onClick={() => setIsUploadOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl glow-btn-primary text-xs font-bold shadow-lg shadow-blue-500/20 active:scale-95 cursor-pointer"
+          >
+            <UploadCloud className="w-4 h-4" />
+            <span>{t.uploadReport || 'Upload Document'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter Tabs */}
@@ -324,6 +390,85 @@ export const MyReportsScreen = () => {
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>{uploadMutation.isPending ? 'Uploading File...' : 'Upload Document'}</span>
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Share Reports with Doctor Modal */}
+      <Modal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} title="Share Records with Doctor" maxWidth="md">
+        <form onSubmit={handleShareSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
+              <Stethoscope className="w-4 h-4 text-teal-400" />
+              <span>Select Doctor</span>
+            </label>
+            {doctorsList.length > 0 ? (
+              <select
+                value={selectedDoctorId}
+                onChange={(e) => setSelectedDoctorId(e.target.value)}
+                required
+                className="w-full rounded-xl bg-slate-900 border border-white/10 p-2.5 text-xs text-white outline-none focus:border-teal-500 cursor-pointer"
+              >
+                <option value="">-- Choose Doctor from your consultations --</option>
+                {doctorsList.map((doc) => (
+                  <option key={doc.id} value={doc.id} className="bg-slate-900">
+                    {doc.name} {doc.hospital ? `(${doc.hospital})` : ''}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-xs text-amber-400 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+                No previous doctor consultations found. Book an appointment to link doctors.
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              Select Reports to Share ({selectedReportIds.length} selected)
+            </label>
+            <div className="max-h-48 overflow-y-auto space-y-2 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+              {reports.length === 0 ? (
+                <p className="text-xs text-slate-500 text-center py-4">No uploaded reports available to share.</p>
+              ) : (
+                reports.map((r) => {
+                  const reportId = r.id || r._id;
+                  const isChecked = selectedReportIds.includes(reportId);
+                  return (
+                    <div
+                      key={reportId}
+                      onClick={() => toggleReportSelection(reportId)}
+                      className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-all border ${
+                        isChecked
+                          ? 'bg-teal-500/15 border-teal-500/40 text-teal-200'
+                          : 'bg-slate-800/40 border-white/5 text-slate-300 hover:bg-slate-800'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className={`w-4 h-4 rounded-md flex items-center justify-center border text-[10px] ${
+                          isChecked ? 'bg-teal-500 border-teal-500 text-black font-bold' : 'border-slate-500'
+                        }`}>
+                          {isChecked && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                        </div>
+                        <span className="text-xs font-medium truncate">{r.title}</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400 shrink-0 ml-2">{r.type}</span>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isSharing || !selectedDoctorId || selectedReportIds.length === 0}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow-lg shadow-teal-600/30 active:scale-95 disabled:opacity-50 cursor-pointer"
+            >
+              <Share2 className="w-4 h-4" />
+              <span>{isSharing ? 'Sharing Reports...' : `Share ${selectedReportIds.length} Selected Reports`}</span>
             </button>
           </div>
         </form>

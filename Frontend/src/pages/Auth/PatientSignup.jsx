@@ -61,7 +61,7 @@ export const PatientSignup = () => {
             user: {
               ...res.user,
               role: ROLE.patient,
-              patientId: 'PAT-' + Math.floor(1000 + Math.random() * 9000),
+              patientId: res.user.patientId || res.user.id || res.user._id,
             },
           })
         );

@@ -42,9 +42,27 @@ export const appointmentApi = {
   getMyAppointments: async () => {
     try {
       const res = await api.get('/appointments/my/patients');
-      return res.data.appointments || storedAppointments;
+      const list = res.data.appointments || res.data || [];
+      if (Array.isArray(list) && list.length > 0) {
+        return list.map((a) => ({
+          ...a,
+          id: a.id || a._id,
+          departmentName: a.departmentName || a.department?.name || a.department || 'Specialist Care',
+          hospitalName: a.hospitalName || a.hospital?.name || a.hospital || 'Medical Center',
+        }));
+      }
+      return list.length > 0 ? list : storedAppointments;
     } catch {
       return storedAppointments;
+    }
+  },
+
+  getPrescriptionForAppointment: async (appointmentId) => {
+    try {
+      const res = await api.get(`/prescription/get-prescription/appointment/${appointmentId}`);
+      return res.data.prescription || null;
+    } catch {
+      return null;
     }
   },
 };

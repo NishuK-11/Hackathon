@@ -10,16 +10,16 @@ export const PatientBottomNav = () => {
 
   const navItems = [
     { to: '/patient-dashboard', label: t.home, icon: Home },
-    { to: '/patient/appointments', label: t.appointments, icon: Calendar },
+    { to: '/patient-dashboard/appointments', label: t.appointments, icon: Calendar },
     { 
-      to: '/patient/queue', 
+      to: '/patient-dashboard/queue', 
       label: t.queue, 
       icon: Users,
       badge: queue?.hasActiveQueue
     },
-    { to: '/patient/reports', label: t.reports, icon: FileText },
-    { to: '/patient/pharmacy', label: t.pharmacy, icon: Pill },
-    { to: '/patient/profile', label: t.profile, icon: User },
+    { to: '/patient-dashboard/reports', label: t.reports, icon: FileText },
+    { to: '/patient-dashboard/pharmacy', label: t.pharmacy, icon: Pill },
+    { to: '/patient-dashboard/profile', label: t.profile, icon: User },
   ];
 
   return (

@@ -86,7 +86,7 @@ export const MedicineInventoryScreen = () => {
         ) : (
           <div className="space-y-3">
             {filteredMedicines.map((medicine) => (
-              <MedicineCard key={medicine.id} medicine={medicine} />
+              <MedicineCard key={medicine._id || medicine.id} medicine={medicine} />
             ))}
           </div>
         )}

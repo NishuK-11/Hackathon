@@ -15,7 +15,7 @@ const mockActiveQueue = {
 };
 
 const initialState = {
-  queue: mockActiveQueue,
+  queue: null,
   isLoading: false,
   incomingCall: null,
   isCallActive: false,

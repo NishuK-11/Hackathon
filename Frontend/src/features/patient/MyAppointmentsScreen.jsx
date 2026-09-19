@@ -55,7 +55,7 @@ export const MyAppointmentsScreen = () => {
         </div>
 
         <button
-          onClick={() => navigate('/patient/hospitals')}
+          onClick={() => navigate('/patient-dashboard/hospitals')}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl glow-btn-primary text-xs font-bold self-start sm:self-center shadow-lg shadow-blue-500/20 active:scale-95 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
@@ -111,7 +111,7 @@ export const MyAppointmentsScreen = () => {
             </p>
             {activeTab === 'upcoming' && (
               <button
-                onClick={() => navigate('/patient/hospitals')}
+                onClick={() => navigate('/patient-dashboard/hospitals')}
                 className="mt-4 px-4 py-2 rounded-xl glow-btn-primary text-xs font-semibold cursor-pointer"
               >
                 Find Doctors Now

@@ -10,7 +10,7 @@ export const HospitalCard = ({ hospital, onDirections }) => {
 
   return (
     <div
-      onClick={() => navigate(`/patient/hospitals/${hospital.id || hospital._id}`)}
+      onClick={() => navigate(`/patient-dashboard/hospitals/${hospital.id || hospital._id}`)}
       className="medical-card medical-card-interactive p-4 sm:p-5 flex flex-col sm:flex-row gap-4 sm:items-center justify-between group"
     >
       <div className="flex items-start sm:items-center gap-4">
@@ -81,7 +81,7 @@ export const HospitalCard = ({ hospital, onDirections }) => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/patient/hospitals/${hospital.id || hospital._id}`);
+            navigate(`/patient-dashboard/hospitals/${hospital.id || hospital._id}`);
           }}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white text-xs font-semibold border border-blue-500/30 transition-all active:scale-95"
         >

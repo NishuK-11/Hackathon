@@ -172,7 +172,7 @@ export const HospitalListScreen = () => {
               <HospitalCard
                 key={hospital.id || hospital._id}
                 hospital={hospital}
-                onDirections={(h) => navigate(`/patient/route/${h.id || h._id}`)}
+                onDirections={(h) => navigate(`/patient-dashboard/route/${h.id || h._id}`)}
               />
             ))}
           </div>

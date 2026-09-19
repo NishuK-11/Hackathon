@@ -46,6 +46,16 @@ export const reportApi = {
       return { success: true, message: 'Report uploaded successfully (Saved locally)' };
     }
   },
+
+  shareReports: async (doctorId, reportIds) => {
+    try {
+      const res = await api.patch('/reports/share-reports', { doctorId, reportIds });
+      return res.data;
+    } catch (err) {
+      console.warn('[Report] Share reports error:', err?.response?.data || err.message);
+      throw err;
+    }
+  },
 };
 
 export default reportApi;

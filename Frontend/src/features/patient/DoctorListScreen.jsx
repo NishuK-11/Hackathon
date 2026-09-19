@@ -27,7 +27,7 @@ export const DoctorListScreen = () => {
   };
 
   const handleBookingSuccess = () => {
-    navigate('/patient/appointments');
+    navigate('/patient-dashboard/appointments');
   };
 
   return (

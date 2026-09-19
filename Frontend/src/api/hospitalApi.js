@@ -79,7 +79,8 @@ export const hospitalApi = {
 
   addReview: async (hospitalId, rating, feedback) => {
     try {
-      await api.post(`/hospital/${hospitalId}/review`, { rating, feedback });
+      const res = await api.post(`/hospital/${hospitalId}/review`, { rating, feedback });
+      return res.data;
     } catch {
       if (!mockReviews[hospitalId]) mockReviews[hospitalId] = [];
       mockReviews[hospitalId].unshift({
@@ -93,10 +94,31 @@ export const hospitalApi = {
     }
   },
 
+  editReview: async (hospitalId, rating, feedback) => {
+    try {
+      const res = await api.put(`/hospital/${hospitalId}/review`, { rating, feedback });
+      return res.data;
+    } catch (err) {
+      if (mockReviews[hospitalId]) {
+        const found = mockReviews[hospitalId].find((r) => r.isMine);
+        if (found) {
+          found.rating = rating;
+          found.feedback = feedback;
+        }
+      }
+    }
+  },
+
   getRouteToHospital: async (patientLat, patientLng, hospitalId) => {
     try {
-      const res = await api.post('/hospitals/route-to-hospital', { patientLat, patientLng, hospitalId });
-      return res.data.routeGeoJSON.features[0].geometry.coordinates.map((c) => [c[1], c[0]]);
+      const res = await api.post('/route-to-hospital', { patientLat, patientLng, hospitalId });
+      if (res.data?.routeGeoJSON?.features?.[0]?.geometry?.coordinates) {
+        return res.data.routeGeoJSON.features[0].geometry.coordinates.map((c) => [c[1], c[0]]);
+      }
+      return [
+        [patientLat || 18.5204, patientLng || 73.8567],
+        [18.5314, 73.8298],
+      ];
     } catch {
       return [
         [patientLat || 18.5204, patientLng || 73.8567],

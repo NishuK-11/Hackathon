@@ -25,6 +25,12 @@ export const BookAppointmentModal = ({
 
   if (!doctor) return null;
 
+  const doctorName = doctor.userId?.name || doctor.name || 'Dr. Specialist';
+  const doctorPhoto = doctor.profile_photo || doctor.profilePhoto || '/assets/doctor.png';
+  const hospitalName = doctor.hospitalName || doctor.hospital?.name || 'Partner Hospital';
+  const departmentName = doctor.departmentName || doctor.department?.name || doctor.specialisation || doctor.position || 'General OPD';
+  const consultationFee = doctor.consultationFee || doctor.consultation_fees || 500;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!doctor) return;
@@ -39,10 +45,10 @@ export const BookAppointmentModal = ({
         appointmentType,
         reason,
         description,
-        doctorName: doctor.name,
-        doctorProfilePhoto: doctor.profilePhoto,
-        hospitalName: doctor.hospitalName || 'Apollo Spectra Hospital',
-        departmentName: doctor.departmentName || doctor.specialization,
+        doctorName,
+        doctorProfilePhoto: doctorPhoto,
+        hospitalName,
+        departmentName,
       });
 
       queryClient.invalidateQueries({ queryKey: ['appointments'] });
@@ -68,8 +74,8 @@ export const BookAppointmentModal = ({
         <div className="flex items-center gap-3.5 rounded-2xl bg-slate-900/90 border border-white/10 p-3.5">
           <div className="h-14 w-14 rounded-2xl overflow-hidden bg-slate-800 shrink-0 border border-blue-500/30">
             <img
-              src={doctor.profilePhoto || '/assets/doctor.png'}
-              alt={doctor.name}
+              src={doctorPhoto}
+              alt={doctorName}
               className="h-full w-full object-cover"
               onError={(e) => {
                 e.target.src = '/assets/doctor.png';
@@ -77,9 +83,9 @@ export const BookAppointmentModal = ({
             />
           </div>
           <div>
-            <h4 className="text-base font-bold text-white">{doctor.name}</h4>
-            <p className="text-xs text-blue-400 font-medium">{doctor.specialization}</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Fee: ₹{doctor.consultationFee || 600}</p>
+            <h4 className="text-base font-bold text-white">{doctorName}</h4>
+            <p className="text-xs text-blue-400 font-medium">{departmentName}</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Fee: ₹{consultationFee}</p>
           </div>
         </div>
 

@@ -54,7 +54,7 @@ export const HospitalProfileScreen = () => {
         <Building2 className="w-16 h-16 text-slate-600 mb-3" />
         <h3 className="text-xl font-bold text-white">Hospital Not Found</h3>
         <button
-          onClick={() => navigate('/patient/hospitals')}
+          onClick={() => navigate('/patient-dashboard/hospitals')}
           className="mt-4 px-4 py-2 rounded-xl glow-btn-primary text-xs font-semibold cursor-pointer"
         >
           Back to Hospitals
@@ -161,7 +161,7 @@ export const HospitalProfileScreen = () => {
             </a>
 
             <button
-              onClick={() => navigate(`/patient/route/${hospital.id || hospital._id}`)}
+              onClick={() => navigate(`/patient-dashboard/route/${hospital.id || hospital._id}`)}
               className="flex flex-col items-center justify-center p-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-white/5 transition-colors group cursor-pointer"
             >
               <Navigation className="w-5 h-5 text-teal-400 mb-1 group-hover:scale-110 transition-transform" />
@@ -252,7 +252,7 @@ export const HospitalProfileScreen = () => {
               {departments.map((dept) => (
                 <button
                   key={dept.id || dept._id}
-                  onClick={() => navigate(`/patient/doctors/${hospital.id || hospital._id}/${dept.id || dept._id}`)}
+                  onClick={() => navigate(`/patient-dashboard/doctors/${hospital.id || hospital._id}/${dept.id || dept._id}`)}
                   className="medical-card medical-card-interactive p-4 flex items-center justify-between group text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3.5">

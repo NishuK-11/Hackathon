@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { 
+  setQueue,
   updateCurrentToken, 
   pauseQueue, 
   resumeQueue, 
   setIncomingCall,
 } from '../../redux/slices/queueSlice';
 import { useTranslation } from '../../hooks/useTranslation';
+import { queueApi } from '../../api/queueApi';
 import { 
   Users, 
   Clock, 
@@ -16,13 +19,30 @@ import {
   Pause, 
   Video, 
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Plus
 } from 'lucide-react';
 
 export const LiveQueueScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const queue = useSelector((state) => state.queue?.queue);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefreshQueue = async () => {
+    try {
+      setRefreshing(true);
+      const data = await queueApi.getActiveQueue();
+      if (data) {
+        dispatch(setQueue(data));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   if (!queue || !queue.hasActiveQueue) {
     return (
@@ -34,6 +54,23 @@ export const LiveQueueScreen = () => {
         <p className="text-xs text-slate-400 max-w-xs mx-auto">
           You do not have an active in-person OPD token assigned for today's consultations.
         </p>
+        <div className="flex items-center justify-center gap-3 pt-2">
+          <button
+            onClick={handleRefreshQueue}
+            disabled={refreshing}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-white/10 transition-all cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin text-blue-400' : ''}`} />
+            <span>{refreshing ? 'Checking...' : 'Check Status'}</span>
+          </button>
+          <button
+            onClick={() => navigate('/patient-dashboard/hospitals')}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl glow-btn-primary text-xs font-bold transition-all active:scale-95 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Book Consultation</span>
+          </button>
+        </div>
       </div>
     );
   }

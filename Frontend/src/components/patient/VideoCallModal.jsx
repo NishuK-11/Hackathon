@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCallActive } from '../../redux/slices/queueSlice';
+import { setCallActive, setIncomingCall } from '../../redux/slices/queueSlice';
 import { useWebRTC } from '../../hooks/useWebRTC';
+import socket from '../../socket';
 import { Mic, MicOff, Video, VideoOff, PhoneOff, ShieldCheck } from 'lucide-react';
 
 export const VideoCallModal = () => {
   const dispatch = useDispatch();
   const isCallActive = useSelector((state) => state.queue?.isCallActive);
+  const incomingCall = useSelector((state) => state.queue?.incomingCall);
 
   const {
     localVideoRef,
@@ -18,7 +20,7 @@ export const VideoCallModal = () => {
     toggleAudio,
     toggleVideo,
     endCall,
-  } = useWebRTC(null);
+  } = useWebRTC(socket, incomingCall?.callerSocketId, incomingCall?.offer);
 
   useEffect(() => {
     if (isCallActive) {
@@ -30,6 +32,7 @@ export const VideoCallModal = () => {
 
   const handleHangup = () => {
     endCall();
+    dispatch(setIncomingCall(null));
     dispatch(setCallActive(false));
   };
 
@@ -70,7 +73,7 @@ export const VideoCallModal = () => {
                   }}
                 />
               </div>
-              <h3 className="text-lg font-bold text-white">Dr. Attending Specialist</h3>
+              <h3 className="text-lg font-bold text-white">{incomingCall?.callerName || 'Dr. Attending Specialist'}</h3>
               <p className="text-xs text-blue-400 mt-1">Direct Teleconsultation Channel</p>
               <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
                 <span className="animate-spin h-3.5 w-3.5 border-2 border-blue-500 border-t-transparent rounded-full" />

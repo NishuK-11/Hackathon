@@ -10,10 +10,20 @@ export const PharmacyListScreen = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState('');
+  const [coords, setCoords] = useState(null);
+
+  React.useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => setCoords({ lat: 18.5204, lng: 73.8567 })
+      );
+    }
+  }, []);
 
   const { data: pharmacies = [], isLoading } = useQuery({
-    queryKey: ['pharmacies'],
-    queryFn: () => pharmacyApi.getAvailablePharmacies(),
+    queryKey: ['pharmacies', coords?.lat, coords?.lng],
+    queryFn: () => pharmacyApi.getAvailablePharmacies(coords?.lat, coords?.lng),
   });
 
   const filteredPharmacies = pharmacies.filter((p) => {
@@ -70,59 +80,62 @@ export const PharmacyListScreen = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredPharmacies.map((pharmacy) => (
-              <div
-                key={pharmacy.id}
-                onClick={() => navigate(`/patient-dashboard/pharmacy/${pharmacy.id}/medicines`)}
-                className="medical-card medical-card-interactive p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover:scale-105 transition-transform">
-                    <Pill className="w-7 h-7" />
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-base font-bold text-white group-hover:text-blue-400 transition-colors">
-                        {pharmacy.shopName}
-                      </h3>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
-                        <ShieldCheck className="w-3 h-3" /> Verified Partner
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
-                      <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                      <span>{pharmacy.address}, {pharmacy.city}</span>
-                    </p>
-
-                    <div className="flex items-center gap-4 mt-2 text-xs text-slate-300">
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <Phone className="w-3.5 h-3.5 text-slate-500" />
-                        {pharmacy.phone}
-                      </span>
-                      {pharmacy.openingHours && (
-                        <span className="flex items-center gap-1 text-teal-400 font-medium">
-                          <Clock className="w-3.5 h-3.5" />
-                          {pharmacy.openingHours}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/patient-dashboard/pharmacy/${pharmacy.id}/medicines`);
-                  }}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl glow-btn-primary text-xs font-bold self-end sm:self-center shrink-0 shadow-md active:scale-95"
+            {filteredPharmacies.map((pharmacy) => {
+              const pid = pharmacy._id || pharmacy.id;
+              return (
+                <div
+                  key={pid}
+                  onClick={() => navigate(`/patient-dashboard/pharmacy/${pid}/medicines`)}
+                  className="medical-card medical-card-interactive p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                 >
-                  <span>Browse Medicines</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover:scale-105 transition-transform">
+                      <Pill className="w-7 h-7" />
+                    </div>
+
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-base font-bold text-white group-hover:text-blue-400 transition-colors">
+                          {pharmacy.shopName}
+                        </h3>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                          <ShieldCheck className="w-3 h-3" /> Verified Partner
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
+                        <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                        <span>{pharmacy.address}, {pharmacy.city}</span>
+                      </p>
+
+                      <div className="flex items-center gap-4 mt-2 text-xs text-slate-300">
+                        <span className="flex items-center gap-1 text-slate-400">
+                          <Phone className="w-3.5 h-3.5 text-slate-500" />
+                          {pharmacy.phone}
+                        </span>
+                        {pharmacy.openingHours && (
+                          <span className="flex items-center gap-1 text-teal-400 font-medium">
+                            <Clock className="w-3.5 h-3.5" />
+                            {pharmacy.openingHours}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/patient-dashboard/pharmacy/${pid}/medicines`);
+                    }}
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl glow-btn-primary text-xs font-bold self-end sm:self-center shrink-0 shadow-md active:scale-95 cursor-pointer"
+                  >
+                    <span>Browse Medicines</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

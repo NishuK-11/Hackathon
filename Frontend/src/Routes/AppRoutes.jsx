@@ -78,6 +78,14 @@ export const AppRoutes = () => {
           </ProtectedRoutes>
         }
       />
+      <Route
+        path="/patient/*"
+        element={
+          <ProtectedRoutes allowedRoles={[ROLE.patient]}>
+            <PatientDashboard />
+          </ProtectedRoutes>
+        }
+      />
 
       {/* Diagnostic Pathology Lab Portal (Protected) */}
       <Route

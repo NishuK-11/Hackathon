@@ -18,7 +18,9 @@ export const HospitalRouteScreen = () => {
     enabled: Boolean(hospitalId),
   });
 
-  const hospitalCoords = [18.5314, 73.8298]; // Fallback Pune clinic coordinates
+  const hospitalCoords = (hospital?.location?.coordinates && hospital.location.coordinates.length === 2)
+    ? [hospital.location.coordinates[1], hospital.location.coordinates[0]]
+    : [18.5314, 73.8298];
 
   useEffect(() => {
     if (navigator.geolocation) {
